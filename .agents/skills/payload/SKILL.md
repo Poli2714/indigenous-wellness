@@ -342,10 +342,46 @@ src/
 │   │   └── page.tsx
 │   └── (payload)/
 │       └── admin/[[...segments]]/page.tsx
-├── collections/
-│   ├── Posts.ts
-│   ├── Media.ts
-│   └── Users.ts
+├──modules/
+│   └── site/
+│       └── header/
+│           └── payload/
+│               └── global.ts
+│           └── components/
+│               └── __tests__/
+│                   └── MenuButton.test.tsx
+│               └── MenuButton.tsx
+│           └── server/
+│               └── get-header.ts
+│           └── types.ts
+│       └── footer/
+│           ...
+│   └── publications/
+│       └── payload/
+│           └── component.ts
+│           └── fields/
+│           └── validations/
+│       └── components/
+│           └── __tests__/
+│               └── PublicationCard.test.tsx
+│           └── PublicationCard.tsx
+│       └── server/
+│           └── actions.ts
+│           └── queries.ts
+│           └── mappers.ts
+│       └── utils/
+│           └── format-publication-date.ts
+│       └── types.ts
+│   └── payload/
+│       └── collections/
+│           ├── media.ts
+│           └── users.ts
+│       └── hooks/
+│           └── ...
+│       └── fields/
+│           └── ...
+│       └── access/
+│           └── ...
 ├── globals/
 │   └── Header.ts
 ├── components/
