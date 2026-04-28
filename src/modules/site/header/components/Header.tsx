@@ -52,6 +52,7 @@ export function HeaderView({
         'flex w-full max-w-384 flex-col gap-y-4 px-4 pt-6 sm:px-6 md:px-8 lg:px-12',
         className,
       )}
+      id='header'
       {...props}
     >
       <div className='flex justify-between lg:relative lg:justify-center'>
