@@ -7,6 +7,7 @@ import sharp from 'sharp';
 
 import { Users } from './payload/collections/users';
 import { Media } from './payload/collections/media';
+import { Header } from '@/modules/site/header/payload/global';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -19,6 +20,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media],
+  globals: [Header],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

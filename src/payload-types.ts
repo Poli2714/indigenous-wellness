@@ -87,8 +87,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    header: Header;
+  };
+  globalsSelect: {
+    header: HeaderSelect<false> | HeaderSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -314,6 +318,73 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Controls the brand link, primary navigation and contact action in the site header.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header".
+ */
+export interface Header {
+  id: number;
+  /**
+   * Links are rendered left to right in the desktop primary navigation.
+   */
+  navItems: {
+    /**
+     * The text to display for the navigation item.
+     */
+    label: string;
+    /**
+     * The URL or path the navigation item links to. Use a relative path, anchor or full http(s), mailto or tel URL.
+     */
+    href: string;
+    /**
+     * Whether the link should open in a new tab.
+     */
+    newTab?: boolean | null;
+    id?: string | null;
+  }[];
+  contactLink: {
+    /**
+     * Whether to show the contact link in the header.
+     */
+    enabled?: boolean | null;
+    /**
+     * The text to display for the contact link.
+     */
+    label: string;
+    /**
+     * The URL or path the contact link points to. Use a relative path, anchor or full http(s), mailto or tel URL.
+     */
+    href: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "header_select".
+ */
+export interface HeaderSelect<T extends boolean = true> {
+  navItems?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        newTab?: T;
+        id?: T;
+      };
+  contactLink?:
+    | T
+    | {
+        enabled?: T;
+        label?: T;
+        href?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
