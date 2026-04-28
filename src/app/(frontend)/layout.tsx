@@ -1,6 +1,9 @@
 import { Metadata } from 'next';
-import React from 'react';
 import { Plus_Jakarta_Sans } from 'next/font/google';
+import React from 'react';
+
+import Header from '@/modules/site/header/components/Header';
+import { ThemeProvider } from '@/modules/site/components/ThemeProvider';
 
 import './styles/globals.css';
 
@@ -17,9 +20,23 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const { children } = props;
 
   return (
-    <html lang='en' className={plusJakartaSans.className}>
-      <body>
-        <main>{children}</main>
+    <html
+      lang='en'
+      className={plusJakartaSans.className}
+      suppressHydrationWarning
+    >
+      <body className='flex flex-col items-center'>
+        <ThemeProvider
+          attribute='class'
+          defaultTheme='system'
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
+          <main className='flex w-full max-w-384 flex-col items-center'>
+            {children}
+          </main>
+        </ThemeProvider>
       </body>
     </html>
   );
