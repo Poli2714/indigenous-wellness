@@ -80,7 +80,6 @@ describe('SubscriptionForm', () => {
         className='custom-subscription-form'
         label='Join the newsletter'
         placeholder='you@example.com'
-        submitLabel='Join'
       />,
     );
 
@@ -89,7 +88,9 @@ describe('SubscriptionForm', () => {
 
     expect(form).toHaveClass('custom-subscription-form');
     expect(input).toHaveAttribute('placeholder', 'you@example.com');
-    expect(screen.getByRole('button', { name: 'Join' })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Subscribe' }),
+    ).toBeInTheDocument();
   });
 
   it('shows a submit error when subscription fails', async () => {

@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import React from 'react';
 
+import Footer from '@/modules/site/footer/components/Footer';
 import Header from '@/modules/site/header/components/Header';
 import { ThemeProvider } from '@/modules/site/components/ThemeProvider';
 
@@ -37,6 +38,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <main className='flex w-full max-w-384 flex-col items-center'>
             {children}
           </main>
+          <Footer />
           <Toaster position='bottom-right' richColors />
         </ThemeProvider>
       </body>

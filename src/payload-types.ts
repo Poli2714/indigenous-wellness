@@ -89,9 +89,11 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     header: Header;
+    footer: Footer;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
   widgets: {
@@ -363,6 +365,99 @@ export interface Header {
   createdAt?: string | null;
 }
 /**
+ * Controls footer navigation, acknowledgement text, social links and newsletter copy.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  /**
+   * Heading for the first footer navigation group.
+   */
+  primaryNavigationTitle: string;
+  /**
+   * Links in the first footer navigation group.
+   */
+  primaryNavigationItems: {
+    /**
+     * The text to display for the link.
+     */
+    label: string;
+    /**
+     * The URL or path the link points to. Use a relative path, anchor or full http(s), mailto or tel URL.
+     */
+    href: string;
+    /**
+     * Whether the link should open in a new tab.
+     */
+    newTab?: boolean | null;
+    id?: string | null;
+  }[];
+  /**
+   * Heading for the project navigation group.
+   */
+  projectNavigationTitle: string;
+  /**
+   * Project links shown across two footer columns.
+   */
+  projectNavigationItems: {
+    /**
+     * The text to display for the link.
+     */
+    label: string;
+    /**
+     * The URL or path the link points to. Use a relative path, anchor or full http(s), mailto or tel URL.
+     */
+    href: string;
+    /**
+     * Whether the link should open in a new tab.
+     */
+    newTab?: boolean | null;
+    id?: string | null;
+  }[];
+  landAcknowledgement: {
+    title: string;
+    body: string;
+  };
+  attribution: string;
+  socialLinks: {
+    /**
+     * The text to display for the link.
+     */
+    label: string;
+    /**
+     * The URL or path the link points to. Use a relative path, anchor or full http(s), mailto or tel URL.
+     */
+    href: string;
+    /**
+     * Whether the link should open in a new tab.
+     */
+    newTab?: boolean | null;
+    id?: string | null;
+  }[];
+  newsletter: {
+    /**
+     * Heading for the newsletter signup form.
+     */
+    label: string;
+    /**
+     * Placeholder text for the newsletter signup input.
+     */
+    placeholder: string;
+    /**
+     * Message shown to the user after successfully signing up for the newsletter.
+     */
+    successMessage: string;
+    /**
+     * Message shown to the user if there is an error signing up for the newsletter.
+     */
+    errorMessage: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -381,6 +476,56 @@ export interface HeaderSelect<T extends boolean = true> {
         enabled?: T;
         label?: T;
         href?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  primaryNavigationTitle?: T;
+  primaryNavigationItems?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        newTab?: T;
+        id?: T;
+      };
+  projectNavigationTitle?: T;
+  projectNavigationItems?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        newTab?: T;
+        id?: T;
+      };
+  landAcknowledgement?:
+    | T
+    | {
+        title?: T;
+        body?: T;
+      };
+  attribution?: T;
+  socialLinks?:
+    | T
+    | {
+        label?: T;
+        href?: T;
+        newTab?: T;
+        id?: T;
+      };
+  newsletter?:
+    | T
+    | {
+        label?: T;
+        placeholder?: T;
+        successMessage?: T;
+        errorMessage?: T;
       };
   updatedAt?: T;
   createdAt?: T;

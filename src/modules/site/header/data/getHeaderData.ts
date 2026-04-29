@@ -55,12 +55,7 @@ export function normalizeHeaderData(header: HeaderGlobal | null): HeaderData {
   );
 
   return {
-    brand: {
-      href:
-        getFilledString(header?.brand?.href) ?? defaultHeaderData.brand.href,
-      label:
-        getFilledString(header?.brand?.label) ?? defaultHeaderData.brand.label,
-    },
+    brand: defaultHeaderData.brand,
     contactLink: {
       ...normalizeLink(header?.contactLink, defaultHeaderData.contactLink),
       enabled:

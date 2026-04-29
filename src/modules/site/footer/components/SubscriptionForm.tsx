@@ -33,7 +33,6 @@ type SubscriptionFormProps = Omit<
   label?: string;
   onSubscribe?: (values: SubscriptionFormValues) => Promise<void> | void;
   placeholder?: string;
-  submitLabel?: string;
   successMessage?: string;
 };
 
@@ -71,7 +70,6 @@ function SubscriptionForm({
   label = 'Get notified about our newsletters',
   onSubscribe,
   placeholder = 'Email address',
-  submitLabel = 'Subscribe',
   successMessage = 'Thanks. You are subscribed.',
   ...props
 }: SubscriptionFormProps) {
@@ -142,7 +140,7 @@ function SubscriptionForm({
             {...emailRegistration}
           />
           <Button
-            aria-label={submitLabel}
+            aria-label='Subscribe'
             className='text-base-600 hover:text-base-400 has-[>svg]:p-1.5'
             disabled={isSubmitting}
             type='submit'
