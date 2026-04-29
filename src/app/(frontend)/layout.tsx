@@ -6,6 +6,7 @@ import Header from '@/modules/site/header/components/Header';
 import { ThemeProvider } from '@/modules/site/components/ThemeProvider';
 
 import './styles/globals.css';
+import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
   description: 'A blank template using Payload in a Next.js app.',
@@ -36,6 +37,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           <main className='flex w-full max-w-384 flex-col items-center'>
             {children}
           </main>
+          <Toaster position='bottom-right' richColors />
         </ThemeProvider>
       </body>
     </html>
