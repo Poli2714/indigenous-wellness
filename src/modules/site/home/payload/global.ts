@@ -1,12 +1,7 @@
-import type { GlobalAfterReadHook, GlobalConfig } from 'payload';
+import type { GlobalConfig } from 'payload';
 
-import { defaultHomeHeroData } from '../data/homeHeroDefaults';
+import { homeAboutField } from './fields/about';
 import { homeHeroField } from './fields/hero';
-
-const populateHomeDefaultsAfterRead: GlobalAfterReadHook = ({ doc }) => ({
-  ...doc,
-  hero: doc.hero ?? defaultHomeHeroData,
-});
 
 export const Home: GlobalConfig = {
   slug: 'home',
@@ -19,9 +14,6 @@ export const Home: GlobalConfig = {
     description: 'Controls home page content managed by Payload.',
     group: 'Pages',
   },
-  hooks: {
-    afterRead: [populateHomeDefaultsAfterRead],
-  },
   fields: [
     {
       type: 'tabs',
@@ -29,6 +21,10 @@ export const Home: GlobalConfig = {
         {
           label: 'Hero',
           fields: [homeHeroField],
+        },
+        {
+          label: 'About',
+          fields: [homeAboutField],
         },
       ],
     },

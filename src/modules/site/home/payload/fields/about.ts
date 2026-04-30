@@ -1,3 +1,8 @@
+import {
+  FixedToolbarFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical';
 import type { Field, TextFieldValidation } from 'payload';
 
 const validateHref: TextFieldValidation = (value) => {
@@ -59,101 +64,69 @@ const actionFields: Field[] = [
   },
 ];
 
-export const homeHeroField: Field = {
-  name: 'hero',
+export const homeAboutField: Field = {
+  name: 'about',
   type: 'group',
   admin: {
     description:
-      'Controls the introductory headline, actions and image mosaic on the home page.',
+      'Controls the about section that appears below the home page hero.',
   },
   fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      admin: {
+        description: 'The headline for the about section.',
+      },
+    },
+    {
+      name: 'body',
+      type: 'richText',
+      admin: {
+        description:
+          'Main about copy. Use rich text for links and simple emphasis; keep headings out because the section already has a headline.',
+      },
+      editor: lexicalEditor({
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
+          FixedToolbarFeature(),
+          InlineToolbarFeature(),
+        ],
+      }),
+    },
+    {
+      name: 'action',
+      type: 'group',
+      admin: {
+        description: 'The link displayed below the about copy.',
+      },
+      fields: actionFields,
+      label: 'Action',
+    },
     {
       type: 'row',
       fields: [
         {
-          name: 'title',
-          type: 'text',
-          admin: {
-            description: 'The main headline text for the hero section.',
-          },
-        },
-        {
-          name: 'subtitle',
-          type: 'text',
-          admin: {
-            description:
-              'A smaller headline that appears below the main title.',
-          },
-        },
-      ],
-    },
-
-    {
-      name: 'description',
-      type: 'textarea',
-      admin: {
-        description:
-          'Additional descriptive text that appears below the title and subtitle.',
-        rows: 4,
-      },
-    },
-    {
-      name: 'primaryAction',
-      type: 'group',
-      admin: {
-        description:
-          'The main call-to-action for this hero. This should be the most important action you want users to take.',
-      },
-      fields: actionFields,
-      label: 'Primary Action',
-    },
-    {
-      name: 'secondaryAction',
-      type: 'group',
-      admin: {
-        description:
-          'An optional secondary action. This can be used for a less prominent link, such as to a contact page or external resource.',
-      },
-      fields: [
-        {
-          name: 'enabled',
-          type: 'checkbox',
-          label: 'Show secondary action',
-        },
-        ...actionFields,
-      ],
-      label: 'Secondary Action',
-    },
-    {
-      name: 'images',
-      type: 'array',
-      admin: {
-        description:
-          'Add up to five images. The layout uses them from left to right, then falls back to quiet placeholders for empty slots.',
-        initCollapsed: true,
-      },
-      fields: [
-        {
           name: 'image',
           type: 'upload',
+          admin: {
+            description:
+              'Optional image displayed below the about copy. A neutral placeholder appears when empty.',
+            width: '50%',
+          },
           relationTo: 'media',
-          required: true,
         },
         {
-          name: 'alt',
+          name: 'imageAlt',
           type: 'text',
           admin: {
             description:
               'Optional alt text override. Leave empty to use the media alt text.',
+            width: '50%',
           },
         },
       ],
-      labels: {
-        plural: 'Hero Images',
-        singular: 'Hero Image',
-      },
-      maxRows: 5,
     },
   ],
-  label: 'Home Hero',
+  label: 'Home About Section',
 };

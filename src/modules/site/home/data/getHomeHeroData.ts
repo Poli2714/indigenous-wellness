@@ -11,6 +11,11 @@ import {
 } from './homeHeroDefaults';
 
 type HomeGlobal = Config['globals']['home'];
+type PartialHomeHeroLink = Partial<{
+  href: string | null;
+  label: string | null;
+  newTab: boolean | null;
+}>;
 
 function getFilledString(value: unknown): string | null {
   if (typeof value !== 'string') {
@@ -23,7 +28,7 @@ function getFilledString(value: unknown): string | null {
 }
 
 function normalizeLink(
-  link: Partial<HomeHeroLink> | null | undefined,
+  link: PartialHomeHeroLink | null | undefined,
   fallback: HomeHeroLink,
 ): HomeHeroLink {
   const href = getFilledString(link?.href);

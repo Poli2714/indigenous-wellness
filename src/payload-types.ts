@@ -470,31 +470,31 @@ export interface Home {
   /**
    * Controls the introductory headline, actions and image mosaic on the home page.
    */
-  hero: {
+  hero?: {
     /**
      * The main headline text for the hero section.
      */
-    title: string;
+    title?: string | null;
     /**
      * A smaller headline that appears below the main title.
      */
-    subtitle: string;
+    subtitle?: string | null;
     /**
      * Additional descriptive text that appears below the title and subtitle.
      */
-    description: string;
+    description?: string | null;
     /**
      * The main call-to-action for this hero. This should be the most important action you want users to take.
      */
-    primaryAction: {
+    primaryAction?: {
       /**
        * The text to display for this action.
        */
-      label: string;
+      label?: string | null;
       /**
        * The URL or path this action links to. Use a relative path, anchor or full http(s).
        */
-      href: string;
+      href?: string | null;
       /**
        * Whether this link should open in a new browser tab.
        */
@@ -503,16 +503,16 @@ export interface Home {
     /**
      * An optional secondary action. This can be used for a less prominent link, such as to a contact page or external resource.
      */
-    secondaryAction: {
+    secondaryAction?: {
       enabled?: boolean | null;
       /**
        * The text to display for this action.
        */
-      label: string;
+      label?: string | null;
       /**
        * The URL or path this action links to. Use a relative path, anchor or full http(s).
        */
-      href: string;
+      href?: string | null;
       /**
        * Whether this link should open in a new browser tab.
        */
@@ -531,6 +531,58 @@ export interface Home {
           id?: string | null;
         }[]
       | null;
+  };
+  /**
+   * Controls the about section that appears below the home page hero.
+   */
+  about?: {
+    /**
+     * The headline for the about section.
+     */
+    heading?: string | null;
+    /**
+     * Main about copy. Use rich text for links and simple emphasis; keep headings out because the section already has a headline.
+     */
+    body?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    /**
+     * The link displayed below the about copy.
+     */
+    action?: {
+      /**
+       * The text to display for this action.
+       */
+      label?: string | null;
+      /**
+       * The URL or path this action links to. Use a relative path, anchor or full http(s).
+       */
+      href?: string | null;
+      /**
+       * Whether this link should open in a new browser tab.
+       */
+      newTab?: boolean | null;
+    };
+    /**
+     * Optional image displayed below the about copy. A neutral placeholder appears when empty.
+     */
+    image?: (number | null) | Media;
+    /**
+     * Optional alt text override. Leave empty to use the media alt text.
+     */
+    imageAlt?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -642,6 +694,21 @@ export interface HomeSelect<T extends boolean = true> {
               alt?: T;
               id?: T;
             };
+      };
+  about?:
+    | T
+    | {
+        heading?: T;
+        body?: T;
+        action?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              newTab?: T;
+            };
+        image?: T;
+        imageAlt?: T;
       };
   updatedAt?: T;
   createdAt?: T;
