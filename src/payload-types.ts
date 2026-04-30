@@ -69,6 +69,7 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    projects: Project;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +79,7 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -171,6 +173,39 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  /**
+   * The project name displayed on project cards.
+   */
+  title: string;
+  /**
+   * Short summary displayed on project cards and featured project listings.
+   */
+  shortDescription: string;
+  /**
+   * Where this project card links. Use an internal path for now, or an external URL when needed.
+   */
+  href: string;
+  /**
+   * Whether this project link opens in a new browser tab.
+   */
+  newTab?: boolean | null;
+  /**
+   * Optional image shown on the project card. A neutral placeholder appears when empty.
+   */
+  image?: (number | null) | Media;
+  /**
+   * Optional alt text override. Leave empty to use the media alt text.
+   */
+  imageAlt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -200,6 +235,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -282,6 +321,20 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  shortDescription?: T;
+  href?: T;
+  newTab?: T;
+  image?: T;
+  imageAlt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -584,6 +637,48 @@ export interface Home {
      */
     imageAlt?: string | null;
   };
+  /**
+   * Controls the copy and link for the home page featured projects section. Featured project cards are pulled from the Projects collection.
+   */
+  featuredProjects?: {
+    /**
+     * The headline for the featured projects section.
+     */
+    heading?: string | null;
+    /**
+     * Introductory copy displayed above the project cards.
+     */
+    description?: string | null;
+    /**
+     * Choose up to five projects for the home page. Drag rows to control display order.
+     */
+    projects?:
+      | {
+          /**
+           * Project to display in this featured slot.
+           */
+          project: number | Project;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * The link displayed below the featured projects copy.
+     */
+    action?: {
+      /**
+       * The text to display for this action.
+       */
+      label?: string | null;
+      /**
+       * The URL or path this action links to. Use a relative path, anchor or full http(s).
+       */
+      href?: string | null;
+      /**
+       * Whether this link should open in a new browser tab.
+       */
+      newTab?: boolean | null;
+    };
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -709,6 +804,25 @@ export interface HomeSelect<T extends boolean = true> {
             };
         image?: T;
         imageAlt?: T;
+      };
+  featuredProjects?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        projects?:
+          | T
+          | {
+              project?: T;
+              id?: T;
+            };
+        action?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              newTab?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;

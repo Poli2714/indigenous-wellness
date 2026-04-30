@@ -1,6 +1,7 @@
 import type { GlobalConfig } from 'payload';
 
 import { homeAboutField } from './fields/about';
+import { homeFeaturedProjectsField } from './fields/featuredProjects';
 import { homeHeroField } from './fields/hero';
 
 export const Home: GlobalConfig = {
@@ -25,6 +26,10 @@ export const Home: GlobalConfig = {
         {
           label: 'About',
           fields: [homeAboutField],
+        },
+        {
+          label: 'Featured Projects',
+          fields: [homeFeaturedProjectsField],
         },
       ],
     },
