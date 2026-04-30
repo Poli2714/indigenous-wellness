@@ -1,4 +1,7 @@
-import type { GlobalConfig, TextFieldValidation } from 'payload';
+import type { GlobalConfig } from 'payload';
+
+import { validateHref } from '@/modules/payload/validations/href';
+import { validateText } from '@/modules/payload/validations/text';
 
 const defaultNavItems = [
   {
@@ -35,30 +38,6 @@ const defaultNavItems = [
   },
 ];
 
-const validateHref: TextFieldValidation = (value) => {
-  const href = value?.trim();
-
-  if (!href) {
-    return 'Enter a link URL.';
-  }
-
-  if (href.startsWith('/') || href.startsWith('#')) {
-    return true;
-  }
-
-  try {
-    const url = new URL(href);
-
-    if (['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol)) {
-      return true;
-    }
-  } catch {
-    return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-  }
-
-  return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-};
-
 export const Header: GlobalConfig = {
   slug: 'header',
   label: 'Header',
@@ -89,6 +68,11 @@ export const Header: GlobalConfig = {
             description: 'The text to display for the navigation item.',
           },
           required: true,
+          validate: validateText({
+            label: 'Navigation label',
+            max: 40,
+            required: true,
+          }),
         },
         {
           name: 'href',
@@ -98,7 +82,10 @@ export const Header: GlobalConfig = {
               'The URL or path the navigation item links to. Use a relative path, anchor or full http(s), mailto or tel URL.',
           },
           required: true,
-          validate: validateHref,
+          validate: validateHref({
+            label: 'Navigation URL',
+            required: true,
+          }),
         },
         {
           name: 'newTab',
@@ -139,6 +126,11 @@ export const Header: GlobalConfig = {
           },
           defaultValue: 'Contact',
           required: true,
+          validate: validateText({
+            label: 'Contact link label',
+            max: 40,
+            required: true,
+          }),
         },
         {
           name: 'href',
@@ -149,7 +141,10 @@ export const Header: GlobalConfig = {
           },
           defaultValue: '/contact',
           required: true,
-          validate: validateHref,
+          validate: validateHref({
+            label: 'Contact link URL',
+            required: true,
+          }),
         },
       ],
       label: 'Contact Link',

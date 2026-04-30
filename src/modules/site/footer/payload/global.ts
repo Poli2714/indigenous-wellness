@@ -3,34 +3,15 @@ import type {
   GlobalAfterReadHook,
   GlobalBeforeValidateHook,
   GlobalConfig,
-  TextFieldValidation,
 } from 'payload';
 
+import { validateHref } from '@/modules/payload/validations/href';
+import {
+  validateText,
+  validateTextarea,
+} from '@/modules/payload/validations/text';
+
 import { defaultFooterData } from '../data/footerDefaults';
-
-const validateHref: TextFieldValidation = (value) => {
-  const href = value?.trim();
-
-  if (!href) {
-    return 'Enter a link URL.';
-  }
-
-  if (href.startsWith('/') || href.startsWith('#')) {
-    return true;
-  }
-
-  try {
-    const url = new URL(href);
-
-    if (['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol)) {
-      return true;
-    }
-  } catch {
-    return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-  }
-
-  return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-};
 
 const linkFields: Field[] = [
   {
@@ -40,6 +21,11 @@ const linkFields: Field[] = [
       description: 'The text to display for the link.',
     },
     required: true,
+    validate: validateText({
+      label: 'Link label',
+      max: 60,
+      required: true,
+    }),
   },
   {
     name: 'href',
@@ -49,7 +35,10 @@ const linkFields: Field[] = [
         'The URL or path the link points to. Use a relative path, anchor or full http(s), mailto or tel URL.',
     },
     required: true,
-    validate: validateHref,
+    validate: validateHref({
+      label: 'Link URL',
+      required: true,
+    }),
   },
   {
     name: 'newTab',
@@ -71,6 +60,12 @@ const newsletterFields: Field[] = [
     },
     defaultValue: defaultFooterData.newsletter.label,
     required: true,
+    validate: validateText({
+      label: 'Newsletter heading',
+      max: 80,
+      min: 2,
+      required: true,
+    }),
   },
   {
     name: 'placeholder',
@@ -80,6 +75,12 @@ const newsletterFields: Field[] = [
     },
     defaultValue: defaultFooterData.newsletter.placeholder,
     required: true,
+    validate: validateText({
+      label: 'Newsletter placeholder',
+      max: 80,
+      min: 2,
+      required: true,
+    }),
   },
   {
     name: 'successMessage',
@@ -90,6 +91,12 @@ const newsletterFields: Field[] = [
     },
     defaultValue: defaultFooterData.newsletter.successMessage,
     required: true,
+    validate: validateText({
+      label: 'Newsletter success message',
+      max: 160,
+      min: 2,
+      required: true,
+    }),
   },
   {
     name: 'errorMessage',
@@ -100,6 +107,12 @@ const newsletterFields: Field[] = [
     },
     defaultValue: defaultFooterData.newsletter.errorMessage,
     required: true,
+    validate: validateText({
+      label: 'Newsletter error message',
+      max: 160,
+      min: 2,
+      required: true,
+    }),
   },
 ];
 
@@ -163,6 +176,12 @@ export const Footer: GlobalConfig = {
       label: 'Primary Navigation',
       defaultValue: defaultFooterData.primaryNavigation.title,
       required: true,
+      validate: validateText({
+        label: 'Primary navigation heading',
+        max: 80,
+        min: 2,
+        required: true,
+      }),
     },
     {
       name: 'primaryNavigationItems',
@@ -189,6 +208,12 @@ export const Footer: GlobalConfig = {
       label: 'Project Navigation',
       defaultValue: defaultFooterData.projectNavigation.title,
       required: true,
+      validate: validateText({
+        label: 'Project navigation heading',
+        max: 80,
+        min: 2,
+        required: true,
+      }),
     },
     {
       name: 'projectNavigationItems',
@@ -215,12 +240,24 @@ export const Footer: GlobalConfig = {
           type: 'text',
           defaultValue: defaultFooterData.landAcknowledgement.title,
           required: true,
+          validate: validateText({
+            label: 'Land acknowledgement heading',
+            max: 80,
+            min: 2,
+            required: true,
+          }),
         },
         {
           name: 'body',
           type: 'textarea',
           defaultValue: defaultFooterData.landAcknowledgement.body,
           required: true,
+          validate: validateTextarea({
+            label: 'Land acknowledgement body',
+            max: 1200,
+            min: 20,
+            required: true,
+          }),
         },
       ],
       label: 'Land Acknowledgement',
@@ -230,6 +267,12 @@ export const Footer: GlobalConfig = {
       type: 'text',
       defaultValue: defaultFooterData.attribution,
       required: true,
+      validate: validateText({
+        label: 'Footer attribution',
+        max: 160,
+        min: 2,
+        required: true,
+      }),
     },
     {
       name: 'socialLinks',

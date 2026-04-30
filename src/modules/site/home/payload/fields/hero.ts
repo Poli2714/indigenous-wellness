@@ -1,28 +1,10 @@
-import type { Field, TextFieldValidation } from 'payload';
+import type { Field } from 'payload';
 
-const validateHref: TextFieldValidation = (value) => {
-  const href = value?.trim();
-
-  if (!href) {
-    return true;
-  }
-
-  if (href.startsWith('/') || href.startsWith('#')) {
-    return true;
-  }
-
-  try {
-    const url = new URL(href);
-
-    if (['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol)) {
-      return true;
-    }
-  } catch {
-    return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-  }
-
-  return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-};
+import { validateHref } from '@/modules/payload/validations/href';
+import {
+  validateText,
+  validateTextarea,
+} from '@/modules/payload/validations/text';
 
 const actionFields: Field[] = [
   {
@@ -35,6 +17,10 @@ const actionFields: Field[] = [
           description: 'The text to display for this action.',
           width: '50%',
         },
+        validate: validateText({
+          label: 'Action label',
+          max: 40,
+        }),
       },
       {
         name: 'href',
@@ -44,7 +30,9 @@ const actionFields: Field[] = [
             'The URL or path this action links to. Use a relative path, anchor or full http(s).',
           width: '50%',
         },
-        validate: validateHref,
+        validate: validateHref({
+          label: 'Action URL',
+        }),
       },
     ],
   },
@@ -76,6 +64,11 @@ export const homeHeroField: Field = {
           admin: {
             description: 'The main headline text for the hero section.',
           },
+          validate: validateText({
+            label: 'Hero title',
+            max: 80,
+            min: 2,
+          }),
         },
         {
           name: 'subtitle',
@@ -84,6 +77,11 @@ export const homeHeroField: Field = {
             description:
               'A smaller headline that appears below the main title.',
           },
+          validate: validateText({
+            label: 'Hero subtitle',
+            max: 120,
+            min: 2,
+          }),
         },
       ],
     },
@@ -96,6 +94,11 @@ export const homeHeroField: Field = {
           'Additional descriptive text that appears below the title and subtitle.',
         rows: 4,
       },
+      validate: validateTextarea({
+        label: 'Hero description',
+        max: 320,
+        min: 20,
+      }),
     },
     {
       name: 'primaryAction',
@@ -146,6 +149,11 @@ export const homeHeroField: Field = {
             description:
               'Optional alt text override. Leave empty to use the media alt text.',
           },
+          validate: validateText({
+            label: 'Hero image alt text',
+            max: 160,
+            min: 2,
+          }),
         },
       ],
       labels: {

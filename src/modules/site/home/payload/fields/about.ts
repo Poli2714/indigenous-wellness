@@ -3,31 +3,10 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical';
-import type { Field, TextFieldValidation } from 'payload';
+import type { Field } from 'payload';
 
-const validateHref: TextFieldValidation = (value) => {
-  const href = value?.trim();
-
-  if (!href) {
-    return true;
-  }
-
-  if (href.startsWith('/') || href.startsWith('#')) {
-    return true;
-  }
-
-  try {
-    const url = new URL(href);
-
-    if (['http:', 'https:', 'mailto:', 'tel:'].includes(url.protocol)) {
-      return true;
-    }
-  } catch {
-    return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-  }
-
-  return 'Use a relative path, anchor, or full http(s), mailto, or tel URL.';
-};
+import { validateHref } from '@/modules/payload/validations/href';
+import { validateText } from '@/modules/payload/validations/text';
 
 const actionFields: Field[] = [
   {
@@ -40,6 +19,10 @@ const actionFields: Field[] = [
           description: 'The text to display for this action.',
           width: '50%',
         },
+        validate: validateText({
+          label: 'Action label',
+          max: 40,
+        }),
       },
       {
         name: 'href',
@@ -49,7 +32,9 @@ const actionFields: Field[] = [
             'The URL or path this action links to. Use a relative path, anchor or full http(s).',
           width: '50%',
         },
-        validate: validateHref,
+        validate: validateHref({
+          label: 'Action URL',
+        }),
       },
     ],
   },
@@ -78,6 +63,11 @@ export const homeAboutField: Field = {
       admin: {
         description: 'The headline for the about section.',
       },
+      validate: validateText({
+        label: 'About section heading',
+        max: 80,
+        min: 2,
+      }),
     },
     {
       name: 'body',
@@ -124,6 +114,11 @@ export const homeAboutField: Field = {
               'Optional alt text override. Leave empty to use the media alt text.',
             width: '50%',
           },
+          validate: validateText({
+            label: 'About image alt text',
+            max: 160,
+            min: 2,
+          }),
         },
       ],
     },
