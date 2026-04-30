@@ -9,6 +9,7 @@ import { Users } from './payload/collections/users';
 import { Media } from './payload/collections/media';
 import { Footer } from '@/modules/site/footer/payload/global';
 import { Header } from '@/modules/site/header/payload/global';
+import { Home } from '@/modules/site/home/payload/global';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -21,7 +22,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media],
-  globals: [Header, Footer],
+  globals: [Header, Footer, Home],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

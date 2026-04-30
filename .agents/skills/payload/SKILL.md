@@ -351,7 +351,7 @@ src/
 │               └── __tests__/
 │                   └── MenuButton.test.tsx
 │               └── MenuButton.tsx
-│           └── server/
+│           └── data/
 │               └── get-header.ts
 │           └── types.ts
 │       └── footer/
@@ -365,7 +365,7 @@ src/
 │           └── __tests__/
 │               └── PublicationCard.test.tsx
 │           └── PublicationCard.tsx
-│       └── server/
+│       └── data/
 │           └── actions.ts
 │           └── queries.ts
 │           └── mappers.ts

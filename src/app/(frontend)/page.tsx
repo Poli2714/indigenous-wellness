@@ -1,3 +1,9 @@
+import HomeHero from '@/modules/site/home/components/HomeHero';
+
 export default function HomePage() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <HomeHero />
+    </>
+  );
 }

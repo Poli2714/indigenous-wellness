@@ -90,10 +90,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    home: Home;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    home: HomeSelect<false> | HomeSelect<true>;
   };
   locale: null;
   widgets: {
@@ -458,6 +460,82 @@ export interface Footer {
   createdAt?: string | null;
 }
 /**
+ * Controls home page content managed by Payload.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home".
+ */
+export interface Home {
+  id: number;
+  /**
+   * Controls the introductory headline, actions and image mosaic on the home page.
+   */
+  hero: {
+    /**
+     * The main headline text for the hero section.
+     */
+    title: string;
+    /**
+     * A smaller headline that appears below the main title.
+     */
+    subtitle: string;
+    /**
+     * Additional descriptive text that appears below the title and subtitle.
+     */
+    description: string;
+    /**
+     * The main call-to-action for this hero. This should be the most important action you want users to take.
+     */
+    primaryAction: {
+      /**
+       * The text to display for this action.
+       */
+      label: string;
+      /**
+       * The URL or path this action links to. Use a relative path, anchor or full http(s).
+       */
+      href: string;
+      /**
+       * Whether this link should open in a new browser tab.
+       */
+      newTab?: boolean | null;
+    };
+    /**
+     * An optional secondary action. This can be used for a less prominent link, such as to a contact page or external resource.
+     */
+    secondaryAction: {
+      enabled?: boolean | null;
+      /**
+       * The text to display for this action.
+       */
+      label: string;
+      /**
+       * The URL or path this action links to. Use a relative path, anchor or full http(s).
+       */
+      href: string;
+      /**
+       * Whether this link should open in a new browser tab.
+       */
+      newTab?: boolean | null;
+    };
+    /**
+     * Add up to five images. The layout uses them from left to right, then falls back to quiet placeholders for empty slots.
+     */
+    images?:
+      | {
+          image: number | Media;
+          /**
+           * Optional alt text override. Leave empty to use the media alt text.
+           */
+          alt?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -526,6 +604,44 @@ export interface FooterSelect<T extends boolean = true> {
         placeholder?: T;
         successMessage?: T;
         errorMessage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "home_select".
+ */
+export interface HomeSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        title?: T;
+        subtitle?: T;
+        description?: T;
+        primaryAction?:
+          | T
+          | {
+              label?: T;
+              href?: T;
+              newTab?: T;
+            };
+        secondaryAction?:
+          | T
+          | {
+              enabled?: T;
+              label?: T;
+              href?: T;
+              newTab?: T;
+            };
+        images?:
+          | T
+          | {
+              image?: T;
+              alt?: T;
+              id?: T;
+            };
       };
   updatedAt?: T;
   createdAt?: T;
