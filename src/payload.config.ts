@@ -7,6 +7,7 @@ import sharp from 'sharp';
 
 import { Users } from './payload/collections/users';
 import { Media } from './payload/collections/media';
+import { NewsTags } from './modules/news/payload/collections/newsTags';
 import { Projects } from './modules/projects/payload/collection';
 import { Footer } from '@/modules/site/footer/payload/global';
 import { Header } from '@/modules/site/header/payload/global';
@@ -22,7 +23,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Projects],
+  collections: [Users, Media, Projects, NewsTags],
   globals: [Header, Footer, Home],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

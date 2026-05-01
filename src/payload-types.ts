@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     projects: Project;
+    'news-tags': NewsTag;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'news-tags': NewsTagsSelect<false> | NewsTagsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -206,6 +208,27 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-tags".
+ */
+export interface NewsTag {
+  id: number;
+  /**
+   * The tag label displayed on news cards and articles.
+   */
+  name: string;
+  /**
+   * Optional badge color. Leave blank to use the default badge color.
+   */
+  badgeColor?: ('evergreen' | 'sky' | 'rose' | 'amber') | null;
+  /**
+   * Generated from the tag name and used in news tag URLs.
+   */
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -239,6 +262,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'news-tags';
+        value: number | NewsTag;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -333,6 +360,17 @@ export interface ProjectsSelect<T extends boolean = true> {
   newTab?: T;
   image?: T;
   imageAlt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news-tags_select".
+ */
+export interface NewsTagsSelect<T extends boolean = true> {
+  name?: T;
+  badgeColor?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
