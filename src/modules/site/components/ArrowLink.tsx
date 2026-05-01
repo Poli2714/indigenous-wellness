@@ -21,7 +21,7 @@ function ArrowLink({
   return (
     <Link
       className={cn(
-        'group flex max-w-max items-end gap-x-0.5 rounded-md border border-transparent text-sm font-medium text-foreground transition-colors outline-none hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
+        'group flex max-w-max items-end gap-x-0.5 rounded-md border border-transparent text-sm font-medium text-foreground transition-colors hover:text-primary focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50',
         className,
       )}
       rel={linkRel}

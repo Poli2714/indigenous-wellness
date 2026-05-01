@@ -66,7 +66,7 @@ function NewsMeta({
       {visibleTags.map((tag, index) => {
         const tagName = tag.name.trim();
         const href = getTagHref(tag, tagHrefBasePath);
-        const variant = tag.badgeClassName ? 'ghost' : 'default';
+        const variant = tag.badgeClassName ? null : 'default';
 
         if (!href) {
           return (

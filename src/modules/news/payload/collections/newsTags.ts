@@ -9,11 +9,12 @@ import { validateText } from '@/modules/payload/validations/text';
 
 export const newsTagBadgeColorClassNames = {
   amber:
-    'bg-amber-100 text-amber-950 hover:bg-amber-200 dark:bg-amber-900/40 dark:text-amber-100 dark:hover:bg-amber-900/60',
+    'bg-amber-200 text-amber-950 hover:bg-amber-200/80 dark:bg-amber-900 dark:text-amber-100 dark:hover:bg-amber-900/80',
   evergreen:
-    'bg-emerald-100 text-emerald-950 hover:bg-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-100 dark:hover:bg-emerald-900/60',
-  rose: 'bg-rose-100 text-rose-950 hover:bg-rose-200 dark:bg-rose-900/40 dark:text-rose-100 dark:hover:bg-rose-900/60',
-  sky: 'bg-sky-100 text-sky-950 hover:bg-sky-200 dark:bg-sky-900/40 dark:text-sky-100 dark:hover:bg-sky-900/60',
+    'bg-emerald-200 text-emerald-950 hover:bg-emerald-200/80 dark:bg-emerald-900 dark:text-emerald-100 dark:hover:bg-emerald-900/80',
+  rose: 'bg-rose-200 text-rose-950 hover:bg-rose-200/80 dark:bg-rose-900 dark:text-rose-100 dark:hover:bg-rose-900/80',
+  sky: 'bg-sky-200 text-sky-950 hover:bg-sky-200/80 dark:bg-sky-900 dark:text-sky-100 dark:hover:bg-sky-900/80',
+  paleSlate: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
 } as const;
 
 export type NewsTagBadgeColor = keyof typeof newsTagBadgeColorClassNames;
@@ -105,6 +106,7 @@ export const NewsTags: CollectionConfig = {
             { label: 'Sky', value: 'sky' },
             { label: 'Rose', value: 'rose' },
             { label: 'Amber', value: 'amber' },
+            { label: 'Pale Slate', value: 'paleSlate' },
           ],
         },
       ],
