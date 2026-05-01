@@ -71,6 +71,7 @@ export interface Config {
     media: Media;
     projects: Project;
     'news-tags': NewsTag;
+    news: News;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +83,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'news-tags': NewsTagsSelect<false> | NewsTagsSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -219,9 +221,38 @@ export interface NewsTag {
   /**
    * Optional badge color. Leave blank to use the default badge color.
    */
-  badgeColor?: ('evergreen' | 'sky' | 'rose' | 'amber') | null;
+  badgeColor?: ('evergreen' | 'sky' | 'rose' | 'amber' | 'paleSlate') | null;
   /**
    * Generated from the tag name and used in news tag URLs.
+   */
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  /**
+   * The headline displayed on news listings and articles.
+   */
+  title: string;
+  /**
+   * Short summary displayed on the home page and news listings.
+   */
+  description: string;
+  /**
+   * Publication date used for sorting and display.
+   */
+  publishedAt: string;
+  /**
+   * Optional tags displayed beside the publication date.
+   */
+  tags?: (number | NewsTag)[] | null;
+  /**
+   * Generated from the title and used in news URLs.
    */
   slug: string;
   updatedAt: string;
@@ -266,6 +297,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'news-tags';
         value: number | NewsTag;
+      } | null)
+    | ({
+        relationTo: 'news';
+        value: number | News;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -370,6 +405,19 @@ export interface ProjectsSelect<T extends boolean = true> {
 export interface NewsTagsSelect<T extends boolean = true> {
   name?: T;
   badgeColor?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news_select".
+ */
+export interface NewsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  publishedAt?: T;
+  tags?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
