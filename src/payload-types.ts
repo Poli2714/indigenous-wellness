@@ -97,11 +97,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     home: Home;
+    'projects-page': ProjectsPage;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     home: HomeSelect<false> | HomeSelect<true>;
+    'projects-page': ProjectsPageSelect<false> | ProjectsPageSelect<true>;
   };
   locale: null;
   widgets: {
@@ -186,17 +188,29 @@ export interface Project {
    */
   title: string;
   /**
+   * Generated from the title and used in project URLs.
+   */
+  slug: string;
+  /**
    * Short summary displayed on project cards and featured project listings.
    */
   shortDescription: string;
   /**
-   * Where this project card links. Use an internal path for now, or an external URL when needed.
+   * Whether this project appears in the current projects list or completed projects carousel.
    */
-  href: string;
+  status: 'current' | 'completed';
   /**
-   * Whether this project link opens in a new browser tab.
+   * Optional year displayed on completed project cards. Leave empty when the completion year is not public.
    */
-  newTab?: boolean | null;
+  completionYear?: number | null;
+  /**
+   * Optional logo shown in current project listings. A default Pewaseskwan logo appears when empty.
+   */
+  logo?: (number | null) | Media;
+  /**
+   * Optional logo alt text override. Leave empty to use the media alt text.
+   */
+  logoAlt?: string | null;
   /**
    * Optional image shown on the project card. A neutral placeholder appears when empty.
    */
@@ -390,9 +404,12 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
   shortDescription?: T;
-  href?: T;
-  newTab?: T;
+  status?: T;
+  completionYear?: T;
+  logo?: T;
+  logoAlt?: T;
   image?: T;
   imageAlt?: T;
   updatedAt?: T;
@@ -769,6 +786,47 @@ export interface Home {
   createdAt?: string | null;
 }
 /**
+ * Controls projects page content managed by Payload.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page".
+ */
+export interface ProjectsPage {
+  id: number;
+  /**
+   * Controls the page hero copy.
+   */
+  hero?: {
+    /**
+     * The main heading displayed at the top of the page.
+     */
+    heading?: string | null;
+    /**
+     * Introductory copy displayed below the heading.
+     */
+    description?: string | null;
+  };
+  /**
+   * Controls the copy and optional action for the completed projects section. Cards are pulled from completed Projects collection entries.
+   */
+  completedProjects?: {
+    /**
+     * The heading displayed above completed project cards.
+     */
+    heading?: string | null;
+    /**
+     * Introductory copy displayed above completed project cards.
+     */
+    description?: string | null;
+    /**
+     * Optional text for the archive link. The destination is fixed to /projects/completed.
+     */
+    actionLabel?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -909,6 +967,28 @@ export interface HomeSelect<T extends boolean = true> {
               href?: T;
               newTab?: T;
             };
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects-page_select".
+ */
+export interface ProjectsPageSelect<T extends boolean = true> {
+  hero?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+      };
+  completedProjects?:
+    | T
+    | {
+        heading?: T;
+        description?: T;
+        actionLabel?: T;
       };
   updatedAt?: T;
   createdAt?: T;

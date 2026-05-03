@@ -20,10 +20,11 @@ const media: Media = {
 function createProject(overrides: Partial<Project> = {}): Project {
   return {
     createdAt: '2026-01-01T00:00:00.000Z',
-    href: '/projects/example',
     id: 1,
     shortDescription:
       'A community-led project summary suitable for a featured card.',
+    slug: 'example',
+    status: 'current',
     title: 'Example Project',
     updatedAt: '2026-01-01T00:00:00.000Z',
     ...overrides,
@@ -33,16 +34,15 @@ function createProject(overrides: Partial<Project> = {}): Project {
 describe('normalizeFeaturedProjectsData', () => {
   it('normalizes home global copy and ordered project relationships', () => {
     const firstProject = createProject({
-      href: '/projects/first',
       id: 1,
       image: media,
       imageAlt: 'Custom project image alt',
+      slug: 'first',
       title: 'First Project',
     });
     const secondProject = createProject({
-      href: 'https://example.com/second',
       id: 2,
-      newTab: true,
+      slug: 'second',
       title: 'Second Project',
     });
     const home: HomeGlobal = {
@@ -86,7 +86,6 @@ describe('normalizeFeaturedProjectsData', () => {
             url: '/media/community-workshop.jpg',
             width: 1200,
           },
-          newTab: undefined,
           title: 'First Project',
           url: '/projects/first',
         },
@@ -94,9 +93,8 @@ describe('normalizeFeaturedProjectsData', () => {
           description:
             'A community-led project summary suitable for a featured card.',
           image: null,
-          newTab: true,
           title: 'Second Project',
-          url: 'https://example.com/second',
+          url: '/projects/second',
         },
       ],
     });
@@ -117,11 +115,12 @@ describe('normalizeFeaturedProjectsData', () => {
             project: 1,
           },
           {
-            id: 'missing-url',
+            id: 'missing-description',
             project: createProject({
-              href: ' ',
               id: 2,
-              title: 'Missing URL',
+              shortDescription: ' ',
+              slug: 'missing-description',
+              title: 'Missing Description',
             }),
           },
           {
@@ -143,11 +142,37 @@ describe('normalizeFeaturedProjectsData', () => {
           description:
             'A community-led project summary suitable for a featured card.',
           image: null,
-          newTab: undefined,
           title: 'Valid Project',
           url: '/projects/example',
         },
       ],
     });
+  });
+
+  it('derives project URLs from titles when legacy projects have no slug', () => {
+    const home: HomeGlobal = {
+      featuredProjects: {
+        projects: [
+          {
+            id: 'legacy',
+            project: createProject({
+              slug: ' ',
+              title: 'Legacy Featured Project',
+            }),
+          },
+        ],
+      },
+      id: 1,
+    };
+
+    expect(normalizeFeaturedProjectsData(home).projects).toEqual([
+      {
+        description:
+          'A community-led project summary suitable for a featured card.',
+        image: null,
+        title: 'Legacy Featured Project',
+        url: '/projects/legacy-featured-project',
+      },
+    ]);
   });
 });

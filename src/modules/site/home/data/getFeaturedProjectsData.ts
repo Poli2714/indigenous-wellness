@@ -2,6 +2,7 @@ import configPromise from '@payload-config';
 import { getPayload } from 'payload';
 
 import type { Config, Media, Project } from '@/payload-types';
+import { slugify } from '@/modules/payload/utils/slugify';
 
 import type {
   ProjectCardImage,
@@ -72,18 +73,17 @@ function normalizeMediaImage(
 function normalizeProject(project: Project): ProjectCardProject | null {
   const title = getFilledString(project.title);
   const description = getFilledString(project.shortDescription);
-  const url = getFilledString(project.href);
+  const slug = getFilledString(project.slug) ?? (title ? slugify(title) : null);
 
-  if (!title || !description || !url) {
+  if (!title || !description || !slug) {
     return null;
   }
 
   return {
     description,
     image: normalizeMediaImage(project.image, project.imageAlt),
-    newTab: project.newTab,
     title,
-    url,
+    url: `/projects/${slug.replace(/^\/+/, '')}`,
   };
 }
 

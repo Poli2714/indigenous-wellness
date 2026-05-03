@@ -10,6 +10,7 @@ import { Media } from './payload/collections/media';
 import { News } from './modules/news/payload/collections/news';
 import { NewsTags } from './modules/news/payload/collections/newsTags';
 import { Projects } from './modules/projects/payload/collection';
+import { ProjectsPage } from './modules/projects/payload/global';
 import { Footer } from '@/modules/site/footer/payload/global';
 import { Header } from '@/modules/site/header/payload/global';
 import { Home } from '@/modules/site/home/payload/global';
@@ -25,7 +26,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Projects, NewsTags, News],
-  globals: [Header, Footer, Home],
+  globals: [Header, Footer, Home, ProjectsPage],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
